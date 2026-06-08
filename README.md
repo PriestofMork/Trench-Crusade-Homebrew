@@ -2,11 +2,8 @@
 
 [![Live Site](https://img.shields.io/badge/Visit-Live%20Vault-red?style=for-the-badge)](https://priestofmork.github.io/Trench-Crusade-Homebrew/)
 
-A centralized, grimdark repository to host, share, and format custom homebrew rules, factions, and lore for Trench Crusade.
+A way to host pdf's for TC Homebrew for free and without any hassle.
 
-### 🌐 Live Showcase
-View all active community releases, templates, and fonts on our automated web page:
-👉 **[https://priestofmork.github.io/Trench-Crusade-Homebrew/](https://priestofmork.github.io/Trench-Crusade-Homebrew/)**
 
 ---
 
@@ -35,7 +32,7 @@ To pass the automated security checks, your file must meet these exact requireme
 > 🔴 **CRITICAL CHECKLIST**
 > *   **PDF Files Only:** The system strictly rejects anything that isn't a `.pdf` file.
 > *   **No Blank Spaces:** Your file name **must not** contain spaces (e.g., use `my-custom-warband.pdf`, *not* `my custom warband.pdf`). Spaces break web URLs and cause glitches in the online viewer. Use dashes (`-`) or underscores (`_`) instead.
-> *   **Stay in the Trench:** Your file must be placed strictly inside the `community/` folder. Modifying root files will cause the security guard to automatically reject and block your pull request.
+> *   **Community Folder:** Your file must be placed strictly inside the `community/` folder. Modifying root files will cause the security guard to automatically reject and block your pull request.
 
 ---
 
@@ -50,8 +47,4 @@ If you tweak your rules or fix a typo later on, keeping your shared link active 
 
 ## 🎨 Creator Resources & Templates
 
-Want your homebrew to look like an official Trench Crusade release? Check out the `/templates` and `/fonts` folders in this repository to grab our custom Microsoft Word/Google Docs templates and keyword font packages.
-
-***
-
-*This repository is powered by GitHub Actions. Bring your rules, follow the naming checklist, and the vault will handle the rest.*
+Want your homebrew to be more than just a big wall of text. Look for the Template i uploaded, aswell as finished homebrew you can freely modify and use to your liking.
