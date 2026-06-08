@@ -30,25 +30,15 @@
             inset: 0;
             z-index: -2;
             background-color: #111111;
+            background-image: url('https://priestofmork.github.io/Trench-Crusade-Homebrew/campaign-map.jpg'), url('https://priestofmork.github.io/Trench-Crusade-Homebrew/Background.jpg');
+            background-size: cover, cover;
+            background-position: center center, center center;
+            background-repeat: no-repeat, no-repeat;
+            background-attachment: fixed;
             overflow: hidden;
             pointer-events: none;
-        }
-        #parallax-bg .bg-layer {
-            position: absolute;
-            inset: 0;
-            background-size: cover;
-            background-position: center center;
-            background-repeat: no-repeat;
+            transform: translate3d(0, 0, 0);
             will-change: transform;
-        }
-        #parallax-bg .bg-main {
-            background-image: url('campaign-map.jpg');
-            opacity: 1;
-        }
-        #parallax-bg .bg-fallback {
-            background-image: url('Background.jpg');
-            opacity: 0.72;
-            filter: brightness(0.52) saturate(0.72);
         }
         #parallax-overlay {
             position: fixed;
@@ -223,10 +213,7 @@
     </style>
 </head>
 <body>
-    <div id="parallax-bg">
-        <div class="bg-layer bg-fallback"></div>
-        <div class="bg-layer bg-main"></div>
-    </div>
+    <div id="parallax-bg"></div>
     <div id="parallax-overlay"></div>
     <div class="page-shell">
         <div class="container">
@@ -252,11 +239,11 @@
                 <ul class="list-card">
                     <li>
                         <span>Template Preview (PDF)</span>
-                        <a class="btn" href="templates/TC_Homebrew_Template.pdf" target="_blank">View PDF</a>
+                        <a class="btn" href="https://priestofmork.github.io/Trench-Crusade-Homebrew/templates/TC_Homebrew_Template.pdf" target="_blank">View PDF</a>
                     </li>
                     <li>
                         <span>Template Document (Microsoft Word)</span>
-                        <a class="btn" href="templates/TC_Homebrew_Template.docx" download>Download</a>
+                        <a class="btn" href="https://priestofmork.github.io/Trench-Crusade-Homebrew/templates/TC_Homebrew_Template.docx" download>Download</a>
                     </li>
                     <li>
                         <span>Prefer not to use Word? Use our Google Docs Template Version instead</span>
@@ -264,11 +251,11 @@
                     </li>
                     <li>
                         <span>Keyword Font Package</span>
-                        <a class="btn" href="fonts/artisan_12(INSTALL_FOR_KEYWORD_FONT).zip" download>Download</a>
+                        <a class="btn" href="https://priestofmork.github.io/Trench-Crusade-Homebrew/fonts/artisan_12(INSTALL_FOR_KEYWORD_FONT).zip" download>Download</a>
                     </li>
                     <li>
                         <span>Old English Font Package</span>
-                        <a class="btn" href="fonts/Carol_Gothic(INSTALL_FOR_OLD_ENGLISH_FONT.zip" download>Download</a>
+                        <a class="btn" href="https://priestofmork.github.io/Trench-Crusade-Homebrew/fonts/Carol_Gothic(INSTALL_FOR_OLD_ENGLISH_FONT.zip" download>Download</a>
                     </li>
                 </ul>
             </section>
@@ -288,6 +275,7 @@
         const communityList = document.getElementById('community-list');
         const communityStatus = document.getElementById('community-status');
         const githubApiUrl = 'https://api.github.com/repos/PriestofMork/Trench-Crusade-Homebrew/contents/community';
+        const pagesBaseUrl = 'https://priestofmork.github.io/Trench-Crusade-Homebrew/community/';
         let targetX = 0;
         let targetY = 0;
         let currentX = 0;
@@ -305,14 +293,6 @@
             requestAnimationFrame(animateBackground);
         }
         animateBackground();
-
-        function normalizeName(filename) {
-            const raw = filename.replace(/\.pdf$/i, '');
-            return raw
-                .replace(/[-_]+/g, ' ')
-                .replace(/([a-z])([A-Z])/g, '$1 $2')
-                .trim();
-        }
 
         function setCommunityStatus(message, error = false) {
             communityStatus.textContent = message;
@@ -364,10 +344,10 @@
                 pdfs.forEach(pdf => {
                     const li = document.createElement('li');
                     const label = document.createElement('span');
-                    label.textContent = normalizeName(pdf.name);
+                    label.textContent = pdf.name.replace(/\.pdf$/i, '');
                     const link = document.createElement('a');
                     link.className = 'btn';
-                    link.href = pdf.download_url;
+                    link.href = pagesBaseUrl + encodeURIComponent(pdf.name);
                     link.target = '_blank';
                     link.rel = 'noopener noreferrer';
                     link.textContent = 'View PDF';
