@@ -14,37 +14,40 @@
         * {
             box-sizing: border-box;
         }
-        body {
+        html, body {
             margin: 0;
-            min-height: 100vh;
-            overflow-x: hidden;
+            min-height: 100%;
+            width: 100%;
             background: #111111;
+            color: #f1f1f1;
         }
-        body::before {
-            content: "";
+        body {
+            overflow-x: hidden;
+            position: relative;
+        }
+        #parallax-bg {
             position: fixed;
             top: 0;
             left: 0;
-            width: 120%;
-            height: 120%;
-            background-image: url("Background.jpg");
-            background-size: cover;
-            background-position: center;
-            filter: saturate(0.65) brightness(0.5);
-            transform: translate3d(var(--bg-x, 0), var(--bg-y, 0), 0) scale(var(--bg-scale, 1));
-            pointer-events: none;
-            z-index: -2;
-            transition: transform 0.15s ease-out;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1;
+            background-color: #111111;
+            background-image: url('campaign-map.jpg'), url('Background.jpg');
+            background-size: cover, cover;
+            background-position: center center, center center;
+            background-repeat: no-repeat, no-repeat;
+            transform: translate3d(0, 0, 0);
+            transition: transform 0.2s ease-out;
         }
-        body::after {
-            content: "";
+        #parallax-overlay {
             position: fixed;
             inset: 0;
-            background: radial-gradient(circle at top left, rgba(255, 102, 102, 0.12), transparent 22%),
-                        radial-gradient(circle at bottom right, rgba(255, 50, 50, 0.08), transparent 25%),
-                        linear-gradient(180deg, rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.75));
-            z-index: -1;
             pointer-events: none;
+            background: radial-gradient(circle at top left, rgba(255, 102, 102, 0.12), transparent 18%),
+                        radial-gradient(circle at bottom right, rgba(255, 60, 60, 0.08), transparent 22%),
+                        linear-gradient(to bottom, rgba(0, 0, 0, 0.42), rgba(0, 0, 0, 0.8));
+            z-index: -1;
         }
         .page-shell {
             min-height: 100vh;
@@ -115,6 +118,9 @@
         .list-card {
             display: grid;
             gap: 14px;
+            padding: 0;
+            margin: 0;
+            list-style: none;
         }
         .list-card li {
             display: flex;
@@ -207,6 +213,8 @@
     </style>
 </head>
 <body>
+    <div id="parallax-bg"></div>
+    <div id="parallax-overlay"></div>
     <div class="page-shell">
         <div class="container">
             <header>
@@ -238,7 +246,8 @@
                         <a class="btn" href="templates/TC_Homebrew_Template.docx" download>Download</a>
                     </li>
                     <li>
-                        <span><a class="btn" href="https://docs.google.com/document/d/1ieapbi6nR2KofzZ2Yt0QRl5iKSm1o6zfTBq_Evt1WZs/edit?usp=sharing" target="_blank">Use Google Docs Template</a></span>
+                        <span>Prefer not to use Word? Use our Google Docs Template Version instead</span>
+                        <a class="btn" href="https://docs.google.com/document/d/1ieapbi6nR2KofzZ2Yt0QRl5iKSm1o6zfTBq_Evt1WZs/edit?usp=sharing" target="_blank">Open Docs</a>
                     </li>
                     <li>
                         <span>Keyword Font Package</span>
@@ -262,24 +271,39 @@
     </div>
 
     <script>
-        const communityList = document.getElementById('community-list');
-        const communityStatus = document.getElementById('community-status');
-
+        const bg = document.getElementById('parallax-bg');
         document.addEventListener('mousemove', event => {
             const x = (event.clientX / window.innerWidth - 0.5) * 16;
             const y = (event.clientY / window.innerHeight - 0.5) * 16;
-            document.body.style.setProperty('--bg-x', `${-x}px`);
-            document.body.style.setProperty('--bg-y', `${-y}px`);
-            document.body.style.setProperty('--bg-scale', '1.03');
+            bg.style.transform = `translate3d(${x}px, ${y}px, 0) scale(1.03)`;
         });
 
-        function normalizeName(filename) {
+        const communityList = document.getElementById('community-list');
         const communityStatus = document.getElementById('community-status');
 
         function normalizeName(filename) {
-            const name = filename.replace(/\.pdf$/i, '');
-            const spaced = name.replace(/[-_]+/g, ' ').replace(/([a-z])([A-Z])/g, '$1 $2');
-            return spaced.replace(/\s+/g, ' ').trim();
+            const raw = filename.replace(/\.pdf$/i, '');
+            return raw
+                .replace(/[-_]+/g, ' ')
+                .replace(/([a-z])([A-Z])/g, '$1 $2')
+                .trim();
+        }
+
+        function renderFallback() {
+            communityList.innerHTML = '';
+            const li = document.createElement('li');
+            const label = document.createElement('span');
+            label.textContent = 'Unable to load automatically. Click below to browse the community folder directly on GitHub.';
+            const link = document.createElement('a');
+            link.className = 'btn';
+            link.href = 'https://github.com/PriestofMork/Trench-Crusade-Homebrew/tree/main/community';
+            link.target = '_blank';
+            link.rel = 'noopener noreferrer';
+            link.textContent = 'Browse GitHub';
+            li.appendChild(label);
+            li.appendChild(link);
+            communityList.appendChild(li);
+            setCommunityStatus('Community list could not be loaded automatically.', true);
         }
 
         function setCommunityStatus(message, error = false) {
@@ -290,14 +314,15 @@
         async function loadCommunityReleases() {
             try {
                 const response = await fetch('https://api.github.com/repos/PriestofMork/Trench-Crusade-Homebrew/contents/community');
-                if (!response.ok) {
-                    throw new Error(`API error: ${response.status} ${response.statusText}`);
-                }
-                const items = await response.json();
-                const pdfs = items.filter(item => item.type === 'file' && item.name.toLowerCase().endsWith('.pdf'));
+                if (!response.ok) throw new Error(`GitHub API returned ${response.status}`);
+                const data = await response.json();
+                if (!Array.isArray(data)) throw new Error('Unexpected API response format');
+                const pdfs = data.filter(item => item.type === 'file' && item.name.toLowerCase().endsWith('.pdf'));
                 communityList.innerHTML = '';
                 if (pdfs.length === 0) {
-                    communityList.innerHTML = '<li><span>No community PDFs found yet.</span></li>';
+                    const li = document.createElement('li');
+                    li.innerHTML = '<span>No community PDFs found yet.</span>';
+                    communityList.appendChild(li);
                     setCommunityStatus('Add PDFs to the community folder to populate this list.');
                     return;
                 }
@@ -318,13 +343,12 @@
                 });
                 setCommunityStatus(`${pdfs.length} community release(s) loaded.`);
             } catch (error) {
-                communityList.innerHTML = '<li><span>Unable to load community releases.</span></li>';
-                setCommunityStatus('Failed to fetch community files from GitHub. Please check your network or GitHub API limits.', true);
                 console.error(error);
+                renderFallback();
             }
         }
 
-        loadCommunityReleases();
+        loadCommunityReleases().catch(() => renderFallback());
     </script>
 </body>
 </html>
