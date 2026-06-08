@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -170,6 +170,13 @@
             border-radius: 6px;
             color: #f6f0e9;
         }
+        .note ol {
+            margin: 12px 0;
+            padding-left: 20px;
+        }
+        .note li {
+            margin-bottom: 8px;
+        }
         .footer {
             margin-top: 18px;
             color: #8c8c8c;
@@ -203,12 +210,12 @@
         <div class="container">
             <header>
                 <h1>Trench Crusade Homebrew Vault</h1>
-                <p class="subtitle">A grimdark vault for custom rules, templates, fonts, and community releases. The map is alive beneath the glass; the page updates automatically from the community folder.</p>
+                <p class="subtitle">A grimdark vault for custom rules, templates, fonts, and community releases. The page updates automatically from the community folder as soon as changes are merged.</p>
             </header>
 
             <section class="section">
                 <h2>Community Homebrew Rules</h2>
-                <p class="section-desc">This section loads the latest published PDFs directly from the community folder. Every valid PDF here appears automatically.</p>
+                <p class="section-desc">Want to read homebrew directly in your browser without downloading it? Click "View PDF" on any file below to open it instantly with working internal document links.</p>
                 <ul class="list-card" id="community-list">
                     <li>
                         <span>Loading community releases…</span>
@@ -245,12 +252,18 @@
             </section>
 
             <section class="section note">
-                <h2>How to contribute</h2>
-                <p><strong>Creators:</strong> Fork this repository, then add your own PDFs to the <code>community/</code> folder. Each PDF added there can be linked from this page, making your rules and lore easy to browse.</p>
-                <p>Keep root files limited to site content only. Use the <code>community/</code> folder for shared homebrew uploads and the <code>fonts/</code> and <code>templates/</code> folders for required assets.</p>
+                <h2>How to Host Your Homebrew PDF Here</h2>
+                <p>If you want a permanent link where people can view your rules without being forced to download a file, submit it here! Our automated vault merges valid submissions instantly.</p>
+                <ol>
+                    <li><strong>Fork this repository</strong> using the button in the top right corner of GitHub.</li>
+                    <li>Upload your file into the <code>community/</code> folder.</li>
+                    <li><strong>Naming Rule:</strong> Your file name <strong>MUST NOT</strong> contain blank spaces (use dashes or underscores instead, like <code>my-warband.pdf</code>). It must be a <code>.pdf</code> file.</li>
+                    <li>Open a <strong>Pull Request</strong>. The system will auto-validate and auto-merge your file within a minute.</li>
+                </ol>
+                <p>To update your file later, upload a new file with the exact same name to overwrite it, and open another Pull Request.</p>
             </section>
 
-            <div class="footer">Powered by automatic GitHub folder publishing. Files ending in <code>.pdf</code> appear here without manual updates.</div>
+            <div class="footer">Powered by automatic GitHub folder publishing. Files meeting the naming criteria appear here instantly upon merging.</div>
         </div>
     </div>
 
@@ -334,11 +347,9 @@
             const img = document.querySelector('#site-background img');
             if (!img) return;
             
-            // Calculate mouse position relative to screen center (-0.5 to 0.5)
             const x = (e.clientX / window.innerWidth) - 0.5;
             const y = (e.clientY / window.innerHeight) - 0.5;
             
-            // Shift the image slightly in the opposite direction (max 20 pixels)
             const moveX = x * -20;
             const moveY = y * -20;
             
