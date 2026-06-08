@@ -30,10 +30,6 @@
             inset: 0;
             z-index: -2;
             background-color: #111111;
-            background-image: url('Background.jpg');
-            background-size: cover;
-            background-position: center center;
-            background-repeat: no-repeat;
             overflow: hidden;
             pointer-events: none;
             transform: translate3d(0, 0, 0);
@@ -212,7 +208,9 @@
     </style>
 </head>
 <body>
-    <div id="parallax-bg"></div>
+    <div id="parallax-bg">
+        <img src="https://priestofmork.github.io/Trench-Crusade-Homebrew/Background.jpg" onerror="this.onerror=null; this.src='Background.jpg';" alt="" style="width: 100%; height: 100%; object-fit: cover; object-position: center; position: absolute; inset: 0;">
+    </div>
     <div id="parallax-overlay"></div>
     <div class="page-shell">
         <div class="container">
