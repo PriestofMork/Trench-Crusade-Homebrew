@@ -1,34 +1,43 @@
-﻿# ✝️ Trench Crusade Homebrew Vault
+✝️ Trench Crusade Homebrew Vault
+A centralized, grimdark repository to host, share, and format custom homebrew rules, factions, and lore for Trench Crusade.
 
-A centralized repository to share, host, and format custom homebrew rules and lore for Trench Crusade.
+🌐 Live Showcase
+View all active community releases, templates, and fonts on our automated web page:
+👉 https://priestofmork.github.io/Trench-Crusade-Homebrew/
 
-## 📜 How to Browse
+⚡ Why Host Your Homebrew Here?
+If you want a clean, permanent link to your homebrew where people can view your PDF directly in their browser without being forced to download it, this repository is built exactly for that.
 
-You can view all current active releases, templates, and fonts on our live web page: [Insert your GitHub Pages URL here]
+When you upload your document here, it is instantly hosted via GitHub Pages, giving you a working web link with fully functional internal document hyperlinks to share with the community.
 
-## 🛠️ How to Host Your Own Homebrew PDF (Step-by-Step)
+🛠️ How to Upload Your Homebrew (Step-by-Step)
+Our repository uses an automated security gate. If you follow these instructions perfectly, the system will automatically accept and merge your file into the live website within 60 seconds.
 
-This repository uses an automated hosting system. Follow these steps to upload your faction or rules and get a permanent sharing link with working internal document hyperlinks:
+Fork the Repo: Click the Fork button in the top right corner of this page to create your own copy of the project.
 
-1. **Fork the Repo:** Click the **Fork** button in the top right corner of this page to create your own copy of the project.
-2. **Upload Your PDF:** Navigate into the `community/` folder in your fork. Click **Add file > Upload files** and drag your PDF into the window.
-3. **CRITICAL NAME RULE:** Your PDF file name **MUST NOT** contain any blank spaces (e.g. `my-custom-warband.pdf`, not `my custom warband.pdf`). Spaces break web views.
-4. **Submit Your Upload:** Commit your changes, then click the green **Contribute > Open Pull Request** button at the top of your fork.
+Upload Your PDF: Go into the community/ folder in your fork. Click Add file > Upload files and drag your document into the window.
 
-## 🔗 How to Get Your Link Instantly
+Submit Your Pull Request: Commit your changes, then click the green Contribute > Open Pull Request button at the top of your fork.
 
-As soon as you submit your Pull Request, look at the conversation timeline at the bottom of your PR page.
+⚠️ The Golden Rules for File Uploads
+To pass the automated security checks, your file must meet these exact requirements:
 
-- GitHub will automatically post a comment saying **"Deploy preview ready!"** within 60 seconds.
-- Click that preview link, click on your PDF file, and copy that browser URL. You can share that link with the community immediately! The site owner will officially merge it to the main page later, but your link will work right away.
-- **To update a file later:** Upload a new PDF to your fork's `community/` folder using the exact same file name to overwrite it. Open a new Pull Request, and your shared links will automatically update to the new version.
+PDF Files Only: The system strictly rejects anything that isn't a .pdf file.
 
-## ⚠️ Important Notes
+No Blank Spaces: Your file name must not contain spaces (e.g., use my-custom-warband.pdf, not my custom warband.pdf). Spaces break web URLs and will cause glitches in the online viewer. Use dashes (-) or underscores (_) instead.
 
-- Only files ending in `.pdf` are displayed automatically in the community releases section.
-- Keep file names clean and use dashes or underscores instead of spaces.
-- The `templates/` and `fonts/` folders are reserved for assets that support homebrew creation and styling.
+Stay in the Trench: Your file must be placed strictly inside the community/ folder. Modifying root files will cause the security guard to automatically reject and block your pull request.
 
----
+🔄 How to Update Your Content Later
+If you tweak your rules or fix a typo later on, keeping your shared link active is incredibly easy:
 
-*Last updated: June 8, 2026*
+Upload the updated PDF to your fork's community/ folder.
+
+Make sure it uses the exact same file name as your original upload so it overwrites it.
+
+Open a new Pull Request. The system will auto-merge it, and your existing community links will instantly update to show your new version!
+
+🎨 Creator Resources & Templates
+Want your homebrew to look like an official Trench Crusade release? Check out the /templates and /fonts folders in this repository to grab our custom Microsoft Word/Google Docs templates and keyword font packages.
+
+This repository is powered by GitHub Actions. Bring your rules, follow the naming checklist, and the vault will handle the rest.
