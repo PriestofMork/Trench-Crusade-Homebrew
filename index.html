@@ -33,10 +33,11 @@
             height: 100vh;
             z-index: -1;
             background-color: #111111;
-            background-image: url('campaign-map.jpg'), url('Background.jpg');
+            background-image: url("./campaign-map.jpg"), url("./Background.jpg");
             background-size: cover, cover;
             background-position: center center, center center;
             background-repeat: no-repeat, no-repeat;
+            background-attachment: fixed;
             transform: translate3d(0, 0, 0);
             transition: transform 0.2s ease-out;
             will-change: transform;
@@ -343,10 +344,10 @@
                     label.textContent = normalizeName(pdf.name);
                     const link = document.createElement('a');
                     link.className = 'btn';
-                    link.href = pdf.download_url;
+                    link.href = pdf.html_url;
                     link.target = '_blank';
                     link.rel = 'noopener noreferrer';
-                    link.textContent = 'Open PDF';
+                    link.textContent = 'View PDF';
                     li.appendChild(label);
                     li.appendChild(link);
                     communityList.appendChild(li);
