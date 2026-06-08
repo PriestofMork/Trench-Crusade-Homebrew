@@ -24,44 +24,38 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          echo "Event: $GITHUB_EVENT_NAME"
           if [ "$GITHUB_EVENT_NAME" = "pull_request" ]; then
             BASE_REF="${{ github.event.pull_request.base.ref }}"
-            echo "Base ref: $BASE_REF"
             git fetch origin "$BASE_REF"
-            CHANGED=$(git diff --name-only --diff-filter=AM "origin/$BASE_REF...HEAD" || true)
+            git -c core.quotepath=false diff --name-only --diff-filter=AM "origin/$BASE_REF...HEAD" > changed_files.txt || true
           else
             if [ "${GITHUB_BEFORE}" = "0000000000000000000000000000000000000000" ]; then
-              CHANGED=$(git diff-tree --no-commit-id --name-only -r "${GITHUB_SHA}" || true)
+              git -c core.quotepath=false diff-tree --no-commit-id --name-only -r "${GITHUB_SHA}" > changed_files.txt || true
             else
-              CHANGED=$(git diff --name-only --diff-filter=AM "${GITHUB_BEFORE}" "${GITHUB_SHA}" || true)
+              git -c core.quotepath=false diff --name-only --diff-filter=AM "${GITHUB_BEFORE}" "${GITHUB_SHA}" > changed_files.txt || true
             fi
           fi
-          echo "Changed files:\n$CHANGED"
-          # Expose to later steps
-          printf "%s" "$CHANGED" > changed_files.txt
-          echo "files<<EOF" >> $GITHUB_OUTPUT
-          printf "%s" "$CHANGED" >> $GITHUB_OUTPUT
-          echo "EOF" >> $GITHUB_OUTPUT
+          echo "Detected files saved to changed_files.txt:"
+          cat changed_files.txt
 
       - name: Enforce that all changed files are inside community/ and end with .pdf
         shell: bash
         run: |
           set -euo pipefail
-          CHANGED=$(cat changed_files.txt)
-          if [ -z "$CHANGED" ]; then
-            echo "No added/modified files detected — failing for safety."
+          if [ ! -f changed_files.txt ]; then
+            echo "No file list found — failing for safety."
             exit 1
           fi
+          
           INVALID_FOUND=0
-          while IFS= read -r f; do
-            # Ignore empty lines
+          while IFS= read -r f || [ -n "$f" ]; do
             [ -z "$f" ] && continue
             if ! [[ "$f" =~ ^community/.*\.pdf$ ]]; then
               echo "Forbidden change detected: $f"
               INVALID_FOUND=1
             fi
-          done <<< "$CHANGED"
+          done < changed_files.txt
+
           if [ "$INVALID_FOUND" -ne 0 ]; then
             echo "One or more changed files are outside community/ or not .pdf — failing workflow to block auto-merge."
             exit 1
@@ -79,6 +73,7 @@ jobs:
 
       - name: Auto-merge PR
         uses: pascalgn/automerge-action@v0.16.0
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          merge_method: merge
+        env:
+          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+          MERGE_METHOD: "merge"
+          MERGE_LABELS: ""
