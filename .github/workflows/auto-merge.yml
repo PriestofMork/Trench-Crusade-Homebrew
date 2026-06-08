@@ -68,12 +68,11 @@ jobs:
     if: needs.validate-changed-files.result == 'success'
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Auto-merge PR
-        uses: pascalgn/automerge-action@v0.16.0
+      - name: Merge the Pull Request natively
         env:
-          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
-          MERGE_METHOD: "merge"
-          MERGE_LABELS: ""
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh pr merge --merge --delete-branch "${{ github.event.pull_request.html_url }}"
