@@ -1,3 +1,5 @@
+“This project is an independent production and is not affiliated with or sponsored by Factory Fortress Inc or Trench Crusade.”
+
 # ✝️ Trench Crusade Homebrew Vault
 
 [![Live Site](https://img.shields.io/badge/Visit-Live%20Vault-red?style=for-the-badge)](https://priestofmork.github.io/Trench-Crusade-Homebrew/)
